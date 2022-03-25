@@ -1,8 +1,9 @@
 ---
 tags: Python, Algorithm, max-heap
 ---
-# Simple Python Implementation of Priority Queue via Max heap
-
+---
+title: Simple Python Implementation of Priority Queue via Max heap
+---
 [![hackmd-github-sync-badge](https://hackmd.io/qDlvP3e5TXSB1Mm2ZMy2OQ/badge)](https://hackmd.io/qDlvP3e5TXSB1Mm2ZMy2OQ)
 
 
