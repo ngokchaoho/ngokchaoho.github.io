@@ -1,9 +1,8 @@
 ---
+title: Simple Python Implementation of Priority Queue via Max heap
 tags: Python, Algorithm, max-heap
 ---
----
-title: Simple Python Implementation of Priority Queue via Max heap
----
+# Simple Python Implementation of Priority Queue via Max heap
 [![hackmd-github-sync-badge](https://hackmd.io/qDlvP3e5TXSB1Mm2ZMy2OQ/badge)](https://hackmd.io/qDlvP3e5TXSB1Mm2ZMy2OQ)
 
 
@@ -12,10 +11,10 @@ While python has heapq to use (which is min heap), e.g.
 
 
 >heapq.heappush(heap, item)
- >   Push the value item onto the heap, maintaining the heap invariant.
+>Push the value item onto the heap, maintaining the heap invariant.
 
-> heapq.heappop(heap)
->    Pop and return the smallest item from the heap, maintaining the heap invariant. If the heap is empty, IndexError is raised. To access the smallest item without popping it, use heap[0].
+>heapq.heappop(heap)
+>Pop and return the smallest item from the heap, maintaining the heap invariant. If the heap is empty, IndexError is raised. To access the smallest item without popping it, use heap[0].
 
 
 Just as a practice, I try to write to write a max heap from scratch for integer
