@@ -74,7 +74,7 @@
     <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/03/25/hello-world/" class="article-date">
-  <time class="dt-published" datetime="2022-03-25T13:32:55.994Z" itemprop="datePublished">2022-03-25</time>
+  <time class="dt-published" datetime="2022-03-25T13:42:31.376Z" itemprop="datePublished">2022-03-25</time>
 </a>
     
   </div>
@@ -110,7 +110,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/03/25/hello-world/" data-id="cl16grkq800008por38q4ef4u" data-title="Hello World" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/03/25/hello-world/" data-id="cl16h3unk00009lok5ier3y4e" data-title="Hello World" class="article-share-link">Share</a>
       
       
       
@@ -125,30 +125,39 @@
     <article id="post-priority_queue" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/03/25/priority_queue/" class="article-date">
-  <time class="dt-published" datetime="2022-03-25T13:32:55.994Z" itemprop="datePublished">2022-03-25</time>
+  <time class="dt-published" datetime="2022-03-25T13:42:31.376Z" itemprop="datePublished">2022-03-25</time>
 </a>
     
   </div>
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/03/25/priority_queue/">Simple Python Implementation of Priority Queue via Max heap</a>
+    </h1>
+  
+
+      </header>
+    
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <hr>
-<h2 id="title-Simple-Python-Implementation-of-Priority-Queue-via-Max-heap"><a href="#title-Simple-Python-Implementation-of-Priority-Queue-via-Max-heap" class="headerlink" title="title: Simple Python Implementation of Priority Queue via Max heap"></a>title: Simple Python Implementation of Priority Queue via Max heap</h2><p><a target="_blank" rel="noopener" href="https://hackmd.io/qDlvP3e5TXSB1Mm2ZMy2OQ"><img src="https://hackmd.io/qDlvP3e5TXSB1Mm2ZMy2OQ/badge" alt="hackmd-github-sync-badge"></a></p>
+        <h1 id="Simple-Python-Implementation-of-Priority-Queue-via-Max-heap"><a href="#Simple-Python-Implementation-of-Priority-Queue-via-Max-heap" class="headerlink" title="Simple Python Implementation of Priority Queue via Max heap"></a>Simple Python Implementation of Priority Queue via Max heap</h1><p><a target="_blank" rel="noopener" href="https://hackmd.io/qDlvP3e5TXSB1Mm2ZMy2OQ"><img src="https://hackmd.io/qDlvP3e5TXSB1Mm2ZMy2OQ/badge" alt="hackmd-github-sync-badge"></a></p>
 <p>While python has heapq to use (which is min heap), e.g.</p>
 <blockquote>
-<p>heapq.heappush(heap, item)<br>  Push the value item onto the heap, maintaining the heap invariant.</p>
+<p>heapq.heappush(heap, item)<br>Push the value item onto the heap, maintaining the heap invariant.</p>
 </blockquote>
 <blockquote>
-<p>heapq.heappop(heap)<br>   Pop and return the smallest item from the heap, maintaining the heap invariant. If the heap is empty, IndexError is raised. To access the smallest item without popping it, use heap[0].</p>
+<p>heapq.heappop(heap)<br>Pop and return the smallest item from the heap, maintaining the heap invariant. If the heap is empty, IndexError is raised. To access the smallest item without popping it, use heap[0].</p>
 </blockquote>
 <p>Just as a practice, I try to write to write a max heap from scratch for integer</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">PriorityQueue</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        self._heap = [<span class="literal">None</span>,]</span><br><span class="line">        self._heap_size = <span class="number">0</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">exch</span>(<span class="params">self,A,B</span>):</span><br><span class="line">        temp = self._heap[A]</span><br><span class="line">        self._heap[A] = self._heap[B]</span><br><span class="line">        self._heap[B] = temp</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">_swim</span>(<span class="params">self</span>):</span><br><span class="line">        k = self._heap_size</span><br><span class="line">        parent = k // <span class="number">2</span></span><br><span class="line">        <span class="keyword">while</span> parent&gt;<span class="number">0</span> <span class="keyword">and</span> self._heap[parent]&lt;self._heap[k]:</span><br><span class="line">            self.exch(parent,k)</span><br><span class="line">            k = parent</span><br><span class="line">            parent = k // <span class="number">2</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">_sink</span>(<span class="params">self</span>):</span><br><span class="line"></span><br><span class="line">            k = <span class="number">1</span></span><br><span class="line">            left_child = k*<span class="number">2</span></span><br><span class="line">            right_child = k*<span class="number">2</span>+<span class="number">1</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> left_child&lt;=self._heap_size:</span><br><span class="line">                bigger = left_child</span><br><span class="line">                <span class="keyword">if</span> k*<span class="number">2</span>+<span class="number">1</span> &lt;= self._heap_size <span class="keyword">and</span> self._heap[left_child]&lt;self._heap[right_child]:</span><br><span class="line">                        bigger = right_child</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> self._heap[k]&lt;self._heap[bigger]:</span><br><span class="line">                    self.exch(k,bigger)</span><br><span class="line">                k = bigger</span><br><span class="line">                left_child = k*<span class="number">2</span></span><br><span class="line">                right_child = k*<span class="number">2</span>+<span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">push</span>(<span class="params">self,element</span>):</span><br><span class="line">        self._heap.append(element)</span><br><span class="line">        self._heap_size += <span class="number">1</span></span><br><span class="line">        self._swim()</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">pop</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">max</span> = self._heap[<span class="number">1</span>]</span><br><span class="line">        self._heap[<span class="number">1</span>] = self._heap[self._heap_size]</span><br><span class="line">        self._heap[self._heap_size] = <span class="literal">None</span></span><br><span class="line">        self._heap_size -= <span class="number">1</span></span><br><span class="line">        self._sink()</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">max</span></span><br><span class="line">        </span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"></span><br><span class="line">pq = PriorityQueue()</span><br><span class="line"><span class="keyword">for</span>  i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    n = randint(<span class="number">1</span>,<span class="number">10</span>)</span><br><span class="line">    pq.push(n)</span><br><span class="line"></span><br><span class="line">result = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    result.append(pq.pop())</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/03/25/priority_queue/" data-id="cl16grkqf00018por460q7zj0" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/03/25/priority_queue/" data-id="cl16h3uns00019lok8wnc1ukh" data-title="Simple Python Implementation of Priority Queue via Max heap" class="article-share-link">Share</a>
       
       
       
@@ -211,7 +220,7 @@
           </li>
         
           <li>
-            <a href="/2022/03/25/priority_queue/">(no title)</a>
+            <a href="/2022/03/25/priority_queue/">Simple Python Implementation of Priority Queue via Max heap</a>
           </li>
         
       </ul>
