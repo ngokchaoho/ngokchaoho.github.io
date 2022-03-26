@@ -2,6 +2,9 @@
 tags: dynamic programming, python, algorithm
 title: Review of dynamic programming framework (fibonnaci, coin change)
 ---
+
+[![hackmd-github-sync-badge](https://hackmd.io/6MGw9QgbTe-z_5tI3kSwfg/badge)](https://hackmd.io/6MGw9QgbTe-z_5tI3kSwfg)
+
 ## Introduction
 
 This is review for dynamic programming framework [動態規劃解題套路框架](https://labuladong.github.io/algo/1/4/)
