@@ -71,10 +71,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-dp-framework" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-backtracking" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2022/03/26/dp-framework/" class="article-date">
-  <time class="dt-published" datetime="2022-03-26T15:49:13.488Z" itemprop="datePublished">2022-03-26</time>
+    <a href="/2022/03/27/backtracking/" class="article-date">
+  <time class="dt-published" datetime="2022-03-27T09:09:29.871Z" itemprop="datePublished">2022-03-27</time>
 </a>
     
   </div>
@@ -85,7 +85,61 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/03/26/dp-framework/">Review of dynamic programming framework (fibonnaci, coin change)</a>
+      <a class="p-name article-title" href="/2022/03/27/backtracking/">Review of Back tracking (one kind of DFS) framework</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>This is a review of <a target="_blank" rel="noopener" href="https://labuladong.github.io/algo/1/5/">回溯算法解題套路框架</a><br>Framework:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">if path meets requirement:</span><br><span class="line">    result.add(path.copy())</span><br><span class="line">for option in available options:</span><br><span class="line">    path.add(option) # make a decision</span><br><span class="line">    backtrack(path,available options)</span><br><span class="line">    path.remove(option) # cancle a decision</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/permutations/">Leet coce 46. Permutations</a><br>Using the general framework, it is perhap easier to find this solution first, which used addtional time complexity to find if the options is used.</p>
+<p>time complexity: O( n!^2 )<br>space complexity: O( (n!+1)*n )</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">permute</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]:</span><br><span class="line">        self.result=[]</span><br><span class="line">        self.recursive([],nums)</span><br><span class="line">        <span class="keyword">return</span> self.result</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">recursive</span>(<span class="params">self,track,nums</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(track) == <span class="built_in">len</span>(nums):</span><br><span class="line">            self.result.append(track.copy())</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">for</span> element <span class="keyword">in</span> nums:</span><br><span class="line">            <span class="keyword">if</span> element <span class="keyword">in</span> track:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            track.append(element)</span><br><span class="line">            self.recursive(track,nums)</span><br><span class="line">            track.pop()</span><br></pre></td></tr></table></figure>
+
+<p>but through swapping we don’t need to use extra time to check if elements have been used before; elements in current (start,end) range hasn’t been used before.<br>time complexity: O(n!)<br>space complexity: O( (n!+1)*n )</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">permute</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]:</span><br><span class="line">        self.result=[]</span><br><span class="line">        self.recursive(<span class="number">0</span>,<span class="built_in">len</span>(nums)-<span class="number">1</span>,nums)</span><br><span class="line">        <span class="keyword">return</span> self.result</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">recursive</span>(<span class="params">self,start,end,nums</span>):</span><br><span class="line">        <span class="keyword">if</span> start == end:</span><br><span class="line">            self.result.append(nums.copy())</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(start,end+<span class="number">1</span>):</span><br><span class="line">            temp = nums[start]</span><br><span class="line">            nums[start] = nums[i]</span><br><span class="line">            nums[i] = temp</span><br><span class="line">            self.recursive(start+<span class="number">1</span>,end,nums)</span><br><span class="line">            temp = nums[i]</span><br><span class="line">            nums[i] = nums[start]</span><br><span class="line">            nums[start] = temp</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/n-queens/">Leetcode 51. N-Queens</a></p>
+<p>Time complexity: <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/21059422/time-complexity-of-n-queen-using-backtracking">O(n!)</a> since T(n) &#x3D; n * T(n-1) + O(n^2) expand to T(n) &#x3D; O(n!) + O(n^3) &#x3D; O(n!)</p>
+<p>Space complexity: O(n^4)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> copy <span class="keyword">import</span> deepcopy</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">solveNQueens</span>(<span class="params">self, n: <span class="built_in">int</span></span>) -&gt; <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">str</span>]]:</span><br><span class="line">        self.board = [[<span class="string">&#x27;.&#x27;</span> <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(n)] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n)]</span><br><span class="line">        self.result = []</span><br><span class="line">        self.n = n </span><br><span class="line">        self.backtrack(<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> self.result</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">is_valid</span>(<span class="params">self, i, j</span>):</span><br><span class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(i):</span><br><span class="line">            <span class="comment"># check same column</span></span><br><span class="line">            <span class="keyword">if</span> self.board[x][j] == <span class="string">&#x27;Q&#x27;</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">            <span class="keyword">if</span> j-(i-x) &gt;= <span class="number">0</span> <span class="keyword">and</span> self.board[x][j-(i-x)] == <span class="string">&#x27;Q&#x27;</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">            <span class="keyword">if</span> j+(i-x) &lt; self.n <span class="keyword">and</span> self.board[x][j+(i-x)] == <span class="string">&#x27;Q&#x27;</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">backtrack</span>(<span class="params">self,i</span>):</span><br><span class="line">        <span class="keyword">if</span> i == self.n:</span><br><span class="line">            temp = []</span><br><span class="line">            <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(self.n):</span><br><span class="line">                temp.append(<span class="string">&quot;&quot;</span>.join(self.board[x]))</span><br><span class="line">            self.result.append(temp)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(self.n):</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> self.is_valid(i,j):</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            self.board[i][j] = <span class="string">&#x27;Q&#x27;</span></span><br><span class="line">            self.backtrack(i+<span class="number">1</span>)</span><br><span class="line">            self.board[i][j] = <span class="string">&#x27;.&#x27;</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/03/27/backtracking/" data-id="cl1928f9o00007vok6s828hpn" data-title="Review of Back tracking (one kind of DFS) framework" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DFS-backtrack-python/" rel="tag">DFS, backtrack, python</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-dp-framework" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/03/27/dp-framework/" class="article-date">
+  <time class="dt-published" datetime="2022-03-27T09:09:29.871Z" itemprop="datePublished">2022-03-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/03/27/dp-framework/">Review of dynamic programming framework (fibonnaci, coin change)</a>
     </h1>
   
 
@@ -130,7 +184,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/03/26/dp-framework/" data-id="cl1812mfn00009xox57d7an65" data-title="Review of dynamic programming framework (fibonnaci, coin change)" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/03/27/dp-framework/" data-id="cl1928f9t00017vokhll4dez6" data-title="Review of dynamic programming framework (fibonnaci, coin change)" class="article-share-link">Share</a>
       
       
       
@@ -146,8 +200,8 @@
   
     <article id="post-priority_queue" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2022/03/26/priority_queue/" class="article-date">
-  <time class="dt-published" datetime="2022-03-26T15:49:13.488Z" itemprop="datePublished">2022-03-26</time>
+    <a href="/2022/03/27/priority_queue/" class="article-date">
+  <time class="dt-published" datetime="2022-03-27T09:09:29.871Z" itemprop="datePublished">2022-03-27</time>
 </a>
     
   </div>
@@ -158,7 +212,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/03/26/priority_queue/">Simple Python Implementation of Priority Queue via Max heap</a>
+      <a class="p-name article-title" href="/2022/03/27/priority_queue/">Simple Python Implementation of Priority Queue via Max heap</a>
     </h1>
   
 
@@ -175,7 +229,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/03/26/priority_queue/" data-id="cl1812mfs00019xox677v7twg" data-title="Simple Python Implementation of Priority Queue via Max heap" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/03/27/priority_queue/" data-id="cl1928f9x00037vok8gak761x" data-title="Simple Python Implementation of Priority Queue via Max heap" class="article-share-link">Share</a>
       
       
       
@@ -202,7 +256,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python-Algorithm-max-heap/" rel="tag">Python, Algorithm, max-heap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dynamic-programming-python-algorithm/" rel="tag">dynamic programming, python, algorithm</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/DFS-backtrack-python/" rel="tag">DFS, backtrack, python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python-Algorithm-max-heap/" rel="tag">Python, Algorithm, max-heap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dynamic-programming-python-algorithm/" rel="tag">dynamic programming, python, algorithm</a></li></ul>
     </div>
   </div>
 
@@ -212,7 +266,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Python-Algorithm-max-heap/" style="font-size: 10px;">Python, Algorithm, max-heap</a> <a href="/tags/dynamic-programming-python-algorithm/" style="font-size: 10px;">dynamic programming, python, algorithm</a>
+      <a href="/tags/DFS-backtrack-python/" style="font-size: 10px;">DFS, backtrack, python</a> <a href="/tags/Python-Algorithm-max-heap/" style="font-size: 10px;">Python, Algorithm, max-heap</a> <a href="/tags/dynamic-programming-python-algorithm/" style="font-size: 10px;">dynamic programming, python, algorithm</a>
     </div>
   </div>
 
@@ -234,11 +288,15 @@
       <ul>
         
           <li>
-            <a href="/2022/03/26/dp-framework/">Review of dynamic programming framework (fibonnaci, coin change)</a>
+            <a href="/2022/03/27/backtracking/">Review of Back tracking (one kind of DFS) framework</a>
           </li>
         
           <li>
-            <a href="/2022/03/26/priority_queue/">Simple Python Implementation of Priority Queue via Max heap</a>
+            <a href="/2022/03/27/dp-framework/">Review of dynamic programming framework (fibonnaci, coin change)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/03/27/priority_queue/">Simple Python Implementation of Priority Queue via Max heap</a>
           </li>
         
       </ul>
