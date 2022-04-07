@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Chao&#39;s blog and project</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="IntroductionThis a review of 東哥帶你刷二叉樹 FrameworkYou can solve problem with binary tree with two methods:  backtracking dynamic programming  Using the framework of backtracking we make decision preorder">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chao&#39;s blog and project">
+<meta property="og:url" content="http://example.com/2022/04/07/binarytree/index.html">
+<meta property="og:site_name" content="Chao&#39;s blog and project">
+<meta property="og:description" content="IntroductionThis a review of 東哥帶你刷二叉樹 FrameworkYou can solve problem with binary tree with two methods:  backtracking dynamic programming  Using the framework of backtracking we make decision preorder">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-04-07T15:12:29.360Z">
+<meta property="article:modified_time" content="2022-04-07T15:12:29.360Z">
+<meta property="article:author" content="Ho Ngok Chao">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Chao's blog and project" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Chao&#39;s blog and project</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-binarytree" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/04/07/binarytree/" class="article-date">
+  <time class="dt-published" datetime="2022-04-07T15:12:29.360Z" itemprop="datePublished">2022-04-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>This a review of <a target="_blank" rel="noopener" href="https://labuladong.github.io/algo/1/7/">東哥帶你刷二叉樹</a></p>
+<h2 id="Framework"><a href="#Framework" class="headerlink" title="Framework"></a>Framework</h2><p>You can solve problem with binary tree with two methods:</p>
+<ul>
+<li>backtracking</li>
+<li>dynamic programming</li>
+</ul>
+<p>Using the <a target="_blank" rel="noopener" href="https://hackmd.io/3HEM3FA1RiKcWVJhSkC6ww">framework of backtracking</a> we make decision preorder and cancel decision postorder:<br><a target="_blank" rel="noopener" href="https://leetcode.com/problems/maximum-depth-of-binary-tree/">Leet code 104. Maximum Depth of Binary Tree</a><br>Time complexity: O(N) traverse through all nodes<br>Space complexity: O(N) worst case the callback stack depth would be N</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"># class TreeNode:</span></span><br><span class="line"><span class="comment">#     def __init__(self, val=0, left=None, right=None):</span></span><br><span class="line"><span class="comment">#         self.val = val</span></span><br><span class="line"><span class="comment">#         self.left = left</span></span><br><span class="line"><span class="comment">#         self.right = right</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">maxDepth</span>(<span class="params">self, root: <span class="type">Optional</span>[TreeNode]</span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        self.depth = <span class="number">0</span></span><br><span class="line">        self.result = <span class="number">0</span></span><br><span class="line">        self.traverse(root)</span><br><span class="line">        <span class="keyword">return</span> self.result</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">traverse</span>(<span class="params">self, node</span>):</span><br><span class="line">        <span class="keyword">if</span> node <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">if</span> self.depth&gt;self.result:</span><br><span class="line">                self.result = self.depth</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        self.depth += <span class="number">1</span> <span class="comment"># preorder position</span></span><br><span class="line">        self.traverse(node.left)</span><br><span class="line">        self.traverse(node.right)</span><br><span class="line">        self.depth -= <span class="number">1</span> <span class="comment"># postorder position</span></span><br></pre></td></tr></table></figure>
+<p>Using the <a target="_blank" rel="noopener" href="https://hackmd.io/6MGw9QgbTe-z_5tI3kSwfg">framework of dynamic programming</a>, we define subproblem and obtain optimal solution for each subproblem via state transition function <code>max(left_max,right_max)+1</code></p>
+<p>Time complexity: O(N) traverse through all nodes<br>Space complexity: O(N) worst case the callback stack depth would be N</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"># class TreeNode:</span></span><br><span class="line"><span class="comment">#     def __init__(self, val=0, left=None, right=None):</span></span><br><span class="line"><span class="comment">#         self.val = val</span></span><br><span class="line"><span class="comment">#         self.left = left</span></span><br><span class="line"><span class="comment">#         self.right = right</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">maxDepth</span>(<span class="params">self, root: <span class="type">Optional</span>[TreeNode]</span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        <span class="keyword">if</span> root <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        left_max = self.maxDepth(root.left)</span><br><span class="line">        right_max = self.maxDepth(root.right)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">max</span>(left_max,right_max)+<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/diameter-of-binary-tree/">leetcode 543. Diameter of Binary Tree</a><br>Time complexity: O(N) traverse through all nodes<br>Space complexity: O(N) worst case the callback stack depth would be N</p>
+<p>Which is just an extension of above, if you discover that the subproblem’s solution equal to <code>current_max_diameter = max_left_depth + max_right_depth</code> and in postorder we already have <code>max_left_depth</code> and <code>max_right_depth</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"># class TreeNode:</span></span><br><span class="line"><span class="comment">#     def __init__(self, val=0, left=None, right=None):</span></span><br><span class="line"><span class="comment">#         self.val = val</span></span><br><span class="line"><span class="comment">#         self.left = left</span></span><br><span class="line"><span class="comment">#         self.right = right</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">diameterOfBinaryTree</span>(<span class="params">self, root: <span class="type">Optional</span>[TreeNode]</span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        self.max_diameter = <span class="number">0</span></span><br><span class="line">        self.max_depth(root)</span><br><span class="line">        <span class="keyword">return</span> self.max_diameter</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">max_depth</span>(<span class="params">self,root</span>):</span><br><span class="line">        <span class="keyword">if</span> root <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        right_depth = self.max_depth(root.right)</span><br><span class="line">        left_depth = self.max_depth(root.left)</span><br><span class="line">        </span><br><span class="line">        my_diameter = left_depth + right_depth</span><br><span class="line">        <span class="keyword">if</span> self.max_diameter &lt; my_diameter:</span><br><span class="line">            self.max_diameter = my_diameter </span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">max</span>(right_depth,left_depth)+<span class="number">1</span></span><br><span class="line">    </span><br><span class="line">        </span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/binary-tree-preorder-traversal/">144. Binary Tree Preorder Traversal</a><br>Typical solution from definition<br>time complexity: O(N)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"># class TreeNode:</span></span><br><span class="line"><span class="comment">#     def __init__(self, val=0, left=None, right=None):</span></span><br><span class="line"><span class="comment">#         self.val = val</span></span><br><span class="line"><span class="comment">#         self.left = left</span></span><br><span class="line"><span class="comment">#         self.right = right</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">preorderTraversal</span>(<span class="params">self, root: <span class="type">Optional</span>[TreeNode]</span>) -&gt; <span class="type">List</span>[<span class="built_in">int</span>]:</span><br><span class="line">        self.res = []</span><br><span class="line">        self.traverse(root)</span><br><span class="line">        <span class="keyword">return</span> self.res</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">traverse</span>(<span class="params">self,node</span>):</span><br><span class="line">        <span class="keyword">if</span> node:</span><br><span class="line">            self.res.append(node.val)</span><br><span class="line">            self.traverse(node.left)</span><br><span class="line">            self.traverse(node.right)</span><br></pre></td></tr></table></figure>
+<p>Using the recursive kind of thinking, we can also divide the preorder traversal problem to subproblems of its sub-trees:</p>
+<p>But the time complexity is O(N^2) due to python’s list extend is O(N) and we do that to every node.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"># class TreeNode:</span></span><br><span class="line"><span class="comment">#     def __init__(self, val=0, left=None, right=None):</span></span><br><span class="line"><span class="comment">#         self.val = val</span></span><br><span class="line"><span class="comment">#         self.left = left</span></span><br><span class="line"><span class="comment">#         self.right = right</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">preorderTraversal</span>(<span class="params">self, root: <span class="type">Optional</span>[TreeNode]</span>) -&gt; <span class="type">List</span>[<span class="built_in">int</span>]:</span><br><span class="line">        res = []</span><br><span class="line">        <span class="keyword">if</span> root <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">return</span> res</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            res.append(root.val)</span><br><span class="line">            res.extend(self.preorderTraversal(root.left))</span><br><span class="line">            res.extend(self.preorderTraversal(root.right))</span><br><span class="line">            <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/04/07/binarytree/" data-id="cl1p51of50001acoob7kdgkok" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/04/07/backtracking/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Review of Back tracking (one kind of DFS) framework
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/04/07/dp-framework/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Review of dynamic programming framework (fibonnaci, coin change)</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/DFS-backtrack-python/" rel="tag">DFS, backtrack, python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python-Algorithm-max-heap/" rel="tag">Python, Algorithm, max-heap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dynamic-programming-python-algorithm/" rel="tag">dynamic programming, python, algorithm</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/DFS-backtrack-python/" style="font-size: 10px;">DFS, backtrack, python</a> <a href="/tags/Python-Algorithm-max-heap/" style="font-size: 10px;">Python, Algorithm, max-heap</a> <a href="/tags/dynamic-programming-python-algorithm/" style="font-size: 10px;">dynamic programming, python, algorithm</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/04/07/backtracking/">Review of Back tracking (one kind of DFS) framework</a>
+          </li>
+        
+          <li>
+            <a href="/2022/04/07/binarytree/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/04/07/dp-framework/">Review of dynamic programming framework (fibonnaci, coin change)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/04/07/priority_queue/">Simple Python Implementation of Priority Queue via Max heap</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 Ho Ngok Chao<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
